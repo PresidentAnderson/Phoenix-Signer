@@ -65,4 +65,4 @@ This software is licensed by **President Anderson**. Redistribution or resale is
 ## 💬 Contact
 
 Questions or partnerships?  
-📫 [info@erichereverydayineveryway.com](mailto:nfo@erichereverydayineveryway.com)
+📫 [info@richereverydayineveryway.com](mailto:nfo@richereverydayineveryway.com)
