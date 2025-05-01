@@ -1,0 +1,36 @@
+name: Build & Release PhoenixSigner
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-release:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up WiX Toolset
+        uses: joncloud/makewix@v1
+        with:
+          wix-version: 3.11.2
+
+      - name: Install PowerShell module
+        run: Install-Module -Name PowerShellGet -Force -Scope CurrentUser
+
+      - name: Build Installer
+        run: |
+          "C:\Program Files (x86)\WiX Toolset v3.11\bin\candle.exe" PhoenixSigner_FinalMultilang_FIXED.wxs
+          "C:\Program Files (x86)\WiX Toolset v3.11\bin\light.exe" PhoenixSigner_FinalMultilang_FIXED.wixobj `
+            -loc strings_en.wxl -loc strings_fr.wxl -loc strings_es.wxl -loc strings_de.wxl `
+            -loc strings_it.wxl -loc strings_pt.wxl -loc strings_ru.wxl -loc strings_tr.wxl `
+            -o PhoenixSigner_v${{ github.ref_name }}.msi
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v1
+        with:
+          files: PhoenixSigner_v${{ github.ref_name }}.msi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
